@@ -52,3 +52,17 @@ CMD ["php-fpm"]
 
 # add function (alias) to bash to home dir
 COPY .bashrc /home/www 
+#--------------------------------------------------
+#RUN mkdir -p /htdocs
+#RUN chown -R www-data:www-data /htdocs
+#RUN chmod -R 755 /htdocs
+WORKDIR /var/www
+COPY composer.json composer.lock  ./
+RUN composer install \
+    --ignore-platform-reqs \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --prefer-dist
+COPY ./data ./
+
